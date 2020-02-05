@@ -9,45 +9,30 @@ package modelo.servicio;
  *
  * @author Felipe
  */
-public class Conductor {
-    private String cedula;
-    private String codigo;
+public class Vigilante {
+    private String id;
     private String nombre;
     private String apellido;
     private String rol;
-    private String fecha_nacimiento;
-    private String genero;
+    private String estado;
 
-    public String getFecha_nacimiento() {
-        return fecha_nacimiento;
+    public Vigilante() {
     }
 
-    public void setFecha_nacimiento(String fecha_nacimiento) {
-        this.fecha_nacimiento = fecha_nacimiento;
+    public Vigilante(String id, String nombre, String apellido, String rol,String estado) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.rol = rol;
+        this.estado = estado;
     }
 
-    public String getGenero() {
-        return genero;
+    public String getId() {
+        return id;
     }
 
-    public void setGenero(String genero) {
-        this.genero = genero;
-    }
-   
-    public String getCedula() {
-        return cedula;
-    }
-
-    public void setCedula(String cedula) {
-        this.cedula = cedula;
-    }
-
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -73,6 +58,12 @@ public class Conductor {
     public void setRol(String rol) {
         this.rol = rol;
     }
-
-  
+    
+    public String getEstado(){
+        return estado;
+    }
+    
+    public void setEstado(String estado){
+       this.estado = estado;
+    } 
 }

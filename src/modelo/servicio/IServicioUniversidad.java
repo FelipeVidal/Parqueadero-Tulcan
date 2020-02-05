@@ -12,5 +12,11 @@ package modelo.servicio;
 public interface IServicioUniversidad {
     public String datosConductorCedula(String entradaCedula);
     public String datosConductorCodigo(String entradaCodigo);
-    public String datosVigilante(String cedula);
+    public String datosAutomovilesPorCedula(String entradaCedula);
+    public String datosAutomovilesPorCodigo(String entradaCodigo);
+    public String datosVigilante(String usuario,String pass);
+    public void ingresarDatosConductor(String cedula, String codigo,String nombre,String apellido,String rol, String genero , String fechaNacimiento);
+    public void ingresarDatosAutomovil(String placa,String marca,String tipo);
+    public void vincularAutomovilConductor(String placa,String numeroId);
+    
 }

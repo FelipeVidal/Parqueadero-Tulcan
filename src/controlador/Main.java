@@ -11,7 +11,9 @@ import vista.*;
  */
 public class Main {
      public static void main(String args[]){
-       VistaConsultaConductor vc = new VistaConsultaConductor();
-       vc.setVisible(true);
+      /* VistaConsultaConductor vc = new VistaConsultaConductor();
+       vc.setVisible(true);*/
+      VistaLoginVigilante vl = new VistaLoginVigilante();
+      vl.setVisible(true);
     }
 }

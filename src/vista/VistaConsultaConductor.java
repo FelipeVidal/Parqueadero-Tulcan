@@ -6,8 +6,14 @@
 package vista;
 
 import controlador.GestorConductor;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import modelo.servicio.Automovil;
 
+ /*
+ * @author Felipe
+ */
 /**
  *
  * @author Felipe
@@ -19,6 +25,7 @@ public class VistaConsultaConductor extends javax.swing.JFrame {
      */
     public VistaConsultaConductor() {
         initComponents();
+        inicializarTabla();
     }
 
     /**
@@ -32,37 +39,76 @@ public class VistaConsultaConductor extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         btnGOpcion = new javax.swing.ButtonGroup();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         rBSelectCodi = new javax.swing.JRadioButton();
         rBSelectId = new javax.swing.JRadioButton();
         btnBuscar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         txtIdentificacion = new java.awt.TextField();
-        jLabel2 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        btnRegConductor = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        lblNombre = new java.awt.Label();
+        lblApellido = new java.awt.Label();
+        lblFechaNacimiento = new java.awt.Label();
+        lblCedula = new java.awt.Label();
+        lblGenero = new java.awt.Label();
+        lblCodigo = new java.awt.Label();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblAutomovil = new javax.swing.JTable();
+        jLabel13 = new javax.swing.JLabel();
+        lblRol = new java.awt.Label();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(600, 200));
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(800, 400));
+        setPreferredSize(new java.awt.Dimension(900, 600));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel1.setMinimumSize(new java.awt.Dimension(600, 100));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         btnGOpcion.add(rBSelectCodi);
-        rBSelectCodi.setSelected(true);
         rBSelectCodi.setText("Código");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         jPanel1.add(rBSelectCodi, gridBagConstraints);
 
         btnGOpcion.add(rBSelectId);
+        rBSelectId.setSelected(true);
         rBSelectId.setText("Documento de Identificación");
+        rBSelectId.setRolloverEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         jPanel1.add(rBSelectId, gridBagConstraints);
 
         btnBuscar.setText("Buscar");
@@ -74,7 +120,13 @@ public class VistaConsultaConductor extends javax.swing.JFrame {
                 btnBuscarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnBuscar, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.ipady = 3;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        jPanel1.add(btnBuscar, gridBagConstraints);
 
         jLabel1.setText("Ingrese número del documento");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -83,13 +135,31 @@ public class VistaConsultaConductor extends javax.swing.JFrame {
         jPanel1.add(jLabel1, gridBagConstraints);
 
         txtIdentificacion.setMinimumSize(new java.awt.Dimension(20, 60));
-        txtIdentificacion.setPreferredSize(new java.awt.Dimension(100, 20));
+        txtIdentificacion.setPreferredSize(new java.awt.Dimension(200, 20));
         jPanel1.add(txtIdentificacion, new java.awt.GridBagConstraints());
 
-        jLabel2.setText("jLabel2");
-        jPanel1.add(jLabel2, new java.awt.GridBagConstraints());
+        jLabel11.setText("Tipo de documento:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        jPanel1.add(jLabel11, gridBagConstraints);
+
+        btnRegConductor.setText("Registrar conductor");
+        btnRegConductor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegConductorActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        jPanel1.add(btnRegConductor, gridBagConstraints);
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -103,21 +173,130 @@ public class VistaConsultaConductor extends javax.swing.JFrame {
         gridBagConstraints.gridy = 1;
         jPanel2.add(jLabel4, gridBagConstraints);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 781, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel3.setLayout(new java.awt.GridBagLayout());
+
+        jLabel2.setText("Información Conductor:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        jPanel3.add(jLabel2, gridBagConstraints);
+
+        jLabel5.setText("Nombre:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        jPanel3.add(jLabel5, gridBagConstraints);
+
+        jLabel6.setText("Apellido:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        jPanel3.add(jLabel6, gridBagConstraints);
+
+        jLabel7.setText("Fecha nacimiento:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        jPanel3.add(jLabel7, gridBagConstraints);
+
+        jLabel8.setText("Cedula:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        jPanel3.add(jLabel8, gridBagConstraints);
+
+        jLabel9.setText("Código:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 2;
+        jPanel3.add(jLabel9, gridBagConstraints);
+
+        jLabel10.setText("Genero:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        jPanel3.add(jLabel10, gridBagConstraints);
+
+        lblNombre.setPreferredSize(new java.awt.Dimension(60, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        jPanel3.add(lblNombre, gridBagConstraints);
+
+        lblApellido.setPreferredSize(new java.awt.Dimension(60, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        jPanel3.add(lblApellido, gridBagConstraints);
+
+        lblFechaNacimiento.setPreferredSize(new java.awt.Dimension(70, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        jPanel3.add(lblFechaNacimiento, gridBagConstraints);
+
+        lblCedula.setPreferredSize(new java.awt.Dimension(60, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
+        jPanel3.add(lblCedula, gridBagConstraints);
+
+        lblGenero.setMinimumSize(new java.awt.Dimension(30, 50));
+        lblGenero.setPreferredSize(new java.awt.Dimension(60, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        jPanel3.add(lblGenero, gridBagConstraints);
+
+        lblCodigo.setPreferredSize(new java.awt.Dimension(60, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 3;
+        jPanel3.add(lblCodigo, gridBagConstraints);
+
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(200, 200));
+
+        tblAutomovil.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblAutomovil.setMinimumSize(new java.awt.Dimension(300, 100));
+        tblAutomovil.setPreferredSize(new java.awt.Dimension(600, 200));
+        jScrollPane2.setViewportView(tblAutomovil);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 5;
+        jPanel3.add(jScrollPane2, gridBagConstraints);
+
+        jLabel13.setText("Rol:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 3;
+        jPanel3.add(jLabel13, gridBagConstraints);
+
+        lblRol.setMinimumSize(new java.awt.Dimension(30, 50));
+        lblRol.setPreferredSize(new java.awt.Dimension(60, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 3;
+        jPanel3.add(lblRol, gridBagConstraints);
+
+        getContentPane().add(jPanel3, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -127,30 +306,90 @@ public class VistaConsultaConductor extends javax.swing.JFrame {
         GestorConductor consulConductor;
         id = txtIdentificacion.getText();
         if(id.equals("")){
-            JOptionPane.showMessageDialog(null,"Debe ingresar el docuento para continuar");
+            JOptionPane.showMessageDialog(null,"Debe ingresar el documento para continuar");
         }else{
             if(rBSelectCodi.isSelected() == true ){
                 consulConductor = new GestorConductor();
-                consulConductor.consultarConductorCodigo(id);
+                consulConductor.consultarConductorCodigo(id,this);
+                consulConductor.cosultarAutomovilCodigo(id, this);
             }else{
                 consulConductor = new GestorConductor();
-                consulConductor.consultarConductorCedula(id);
+                consulConductor.consultarConductorCedula(id,this);
+                consulConductor.cosultarAutomovilCedula(id, this);
             }
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    private void btnRegConductorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegConductorActionPerformed
+        VistaRegistrarConductor vrc;
+        vrc = new VistaRegistrarConductor();
+        vrc.setVisible(true);
+    }//GEN-LAST:event_btnRegConductorActionPerformed
+    private void inicializarTabla(){
+        tblAutomovil.setModel(new javax.swing.table.DefaultTableModel(new Object [] [] {},new String[]{"Placa","Marca","Tipo"}));
+    } 
+    public void limpiarDatos(){
+        lblNombre.setText("");
+        lblApellido.setText("");
+        lblCedula.setText("");
+        lblCodigo.setText("");
+        lblFechaNacimiento.setText("");
+        lblGenero.setText("");
+        lblRol.setText("");
+        inicializarTabla();
+    }
+    public void mostrarConductor(String nombre,String apellido,String cedula, String codigo,String rol,String fechaNacimiento,String genero){    
+        lblNombre.setText(nombre);
+        lblApellido.setText(apellido);
+        lblCedula.setText(cedula);
+        lblCodigo.setText(codigo);
+        lblFechaNacimiento.setText(fechaNacimiento);
+        lblGenero.setText(genero);
+        lblRol.setText(rol);
+    }
+    public void mostrarAutomovil(Automovil[] automovil){
+        DefaultTableModel model = (DefaultTableModel) tblAutomovil.getModel();
+        Object rowData[] = new Object[7];
+        for(Automovil auto: automovil){
+            rowData[0] = auto.getPlaca();
+            rowData[1] = auto.getMarca();
+            rowData[2] = auto.getTipo();
+            model.addRow(rowData);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.ButtonGroup btnGOpcion;
+    private javax.swing.JButton btnRegConductor;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
+    private java.awt.Label lblApellido;
+    private java.awt.Label lblCedula;
+    private java.awt.Label lblCodigo;
+    private java.awt.Label lblFechaNacimiento;
+    private java.awt.Label lblGenero;
+    private java.awt.Label lblNombre;
+    private java.awt.Label lblRol;
     private javax.swing.JRadioButton rBSelectCodi;
     private javax.swing.JRadioButton rBSelectId;
+    private javax.swing.JTable tblAutomovil;
     private java.awt.TextField txtIdentificacion;
     // End of variables declaration//GEN-END:variables
 }

@@ -55,11 +55,11 @@ public class ServicioServidorUniversidad implements IServicioUniversidad {
 
    } 
    @Override
-   public String datosVigilante(String cedula){
+   public String datosVigilante(String usuario,String pass){
                String respuesta = null;
         try {
             conectar(IP_SERVIDOR, PUERTO);
-            respuesta = leerFlujoEntradaSalida("informacionVigilante",cedula);
+            respuesta = leerFlujoEntradaSalidaVigilante("informacionVigilante",usuario,pass);
             cerrarFlujos();
             desconectar();
 
@@ -68,6 +68,80 @@ public class ServicioServidorUniversidad implements IServicioUniversidad {
         }
         return respuesta;
    }
+   @Override
+    public String datosAutomovilesPorCedula(String entradaCedula){
+        String respuesta = null;
+        try{
+            conectar(IP_SERVIDOR, PUERTO);
+            respuesta = leerFlujoEntradaSalida("informacionAutomovilConductorCedula",entradaCedula);
+            cerrarFlujos();
+            desconectar();
+        }catch(IOException ex){
+            Logger.getLogger(ServicioServidorUniversidad.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return respuesta;
+    }
+    
+    @Override 
+    public String datosAutomovilesPorCodigo(String entradaCodigo){
+         String respuesta = null;
+        try{
+            conectar(IP_SERVIDOR, PUERTO);
+            respuesta = leerFlujoEntradaSalida("informacionAutomovilConductorCodigo",entradaCodigo);
+            cerrarFlujos();
+            desconectar();
+        }catch(IOException ex){
+            Logger.getLogger(ServicioServidorUniversidad.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return respuesta;
+    }
+    @Override
+    public void ingresarDatosConductor(String cedula, String codigo,String nombre,String apellido,String rol, String genero , String fechaNacimiento) {
+        try{
+            conectar(IP_SERVIDOR,PUERTO);
+            leerFlujoEntradaSalidadIngresarConductor("ingresarConductor", cedula, codigo, nombre, apellido, rol, genero, fechaNacimiento);
+            cerrarFlujos();
+            desconectar();
+        } catch (IOException ex) {
+           Logger.getLogger(ServicioServidorUniversidad.class.getName()).log(Level.SEVERE, null, ex);
+       }
+    }
+    @Override
+    public void ingresarDatosAutomovil(String placa, String marca, String tipo) {
+        try{
+            conectar(IP_SERVIDOR,PUERTO);
+            leerFlujoEntradaSalidaIngresarVehiculo("ingresarAutomovil",placa,marca,tipo);
+            cerrarFlujos();
+            desconectar();
+        }catch (IOException ex){
+                Logger.getLogger(ServicioServidorUniversidad.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    @Override
+    public void vincularAutomovilConductor(String placa, String numeroId) {
+        try{
+            conectar(IP_SERVIDOR,PUERTO);
+            leerFlujoEntradaSalidaVincularConductorAutomovil("vicularAutomovilConductor",placa,numeroId);
+            cerrarFlujos();
+            desconectar();
+        }catch (IOException ex){
+                Logger.getLogger(ServicioServidorUniversidad.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void leerFlujoEntradaSalidadIngresarConductor(String consulta,String cedula, String codigo,String nombre,String apellido,String rol, String genero , String fechaNacimiento) throws IOException{
+        entradaDecorada = new Scanner(socket.getInputStream());
+        salidaDecorada = new PrintStream(socket.getOutputStream());
+        salidaDecorada.flush();
+        // Usando el protocolo de comunicaciÃ³n
+        salidaDecorada.println(consulta+"," + cedula + "," + codigo + "," + nombre + "," + apellido + "," + rol + "," + ","+ genero + "," + fechaNacimiento);
+    }
+    private void leerFlujoEntradaSalidaIngresarVehiculo(String consulta,String placa,String marca,String tipo) throws IOException{
+        entradaDecorada = new Scanner(socket.getInputStream());
+        salidaDecorada = new PrintStream(socket.getOutputStream());
+        salidaDecorada.flush();
+        salidaDecorada.println(consulta+","+placa+","+marca+","+tipo);
+    }
     private String leerFlujoEntradaSalida(String consulta,String identificacion) throws IOException {
         String respuesta = "";
         entradaDecorada = new Scanner(socket.getInputStream());
@@ -80,6 +154,27 @@ public class ServicioServidorUniversidad implements IServicioUniversidad {
         }
         return respuesta;
     }
+    
+    private String leerFlujoEntradaSalidaVigilante(String consulta,String usuario, String pass) throws IOException{
+        String respuesta = "";
+         entradaDecorada = new Scanner(socket.getInputStream());
+        salidaDecorada = new PrintStream(socket.getOutputStream());
+        salidaDecorada.flush();
+        // Usando el protocolo de comunicaciÃ³n
+        salidaDecorada.println(consulta+"," + usuario +","+ pass);
+        if (entradaDecorada.hasNextLine()) {
+            respuesta = entradaDecorada.nextLine();
+        }
+        return respuesta;
+    }
+    private void leerFlujoEntradaSalidaVincularConductorAutomovil(String consulta,String placa,String id) throws IOException{
+        entradaDecorada = new Scanner(socket.getInputStream());
+        salidaDecorada = new PrintStream(socket.getOutputStream());
+        salidaDecorada.flush();
+        salidaDecorada.println(consulta+","+placa+","+id);
+    }
+   
+    
     private void cerrarFlujos() {
         salidaDecorada.close();
         entradaDecorada.close();
@@ -98,5 +193,9 @@ public class ServicioServidorUniversidad implements IServicioUniversidad {
         socket = new Socket(address, port);
         System.out.println("Conectado");   
     }
+
+
+
+    
    
 }
