@@ -2,19 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Felipe/Documents/NetBeansProjects/ParquederoTulcan/src/vista/VistaRegistrarAutomovil.java</file>
-            <file>file:/C:/Users/Felipe/Documents/NetBeansProjects/ParquederoTulcan/src/vista/VistaLoginVigilante.java</file>
-            <file>file:/C:/Users/Felipe/Documents/NetBeansProjects/ParquederoTulcan/src/controlador/GestorConductor.java</file>
-            <file>file:/C:/Users/Felipe/Documents/NetBeansProjects/ParquederoTulcan/src/vista/VistaRegistrarConductor.java</file>
-            <file>file:/C:/Users/Felipe/Documents/NetBeansProjects/ParquederoTulcan/src/vista/VistaRegistrarMulta.java</file>
-            <file>file:/C:/Users/Felipe/Documents/NetBeansProjects/ParquederoTulcan/src/modelo/servicio/ServicioServidorUniversidad.java</file>
-            <file>file:/C:/Users/Felipe/Documents/NetBeansProjects/ParquederoTulcan/src/modelo/servicio/IServicioUniversidad.java</file>
-            <file>file:/C:/Users/Felipe/Documents/NetBeansProjects/ParquederoTulcan/src/modelo/servicio/Vigilante.java</file>
-            <file>file:/C:/Users/Felipe/Documents/NetBeansProjects/ParquederoTulcan/src/vista/VistaConsultaConductor.java</file>
-            <file>file:/C:/Users/Felipe/Documents/NetBeansProjects/ParquederoTulcan/src/vista/VistaMenu.java</file>
-            <file>file:/C:/Users/Felipe/Documents/NetBeansProjects/ParquederoTulcan/src/vista/VistaVincularConductorAutomovil.java</file>
-            <file>file:/C:/Users/Felipe/Documents/NetBeansProjects/ParquederoTulcan/src/vista/VistaMapa.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
