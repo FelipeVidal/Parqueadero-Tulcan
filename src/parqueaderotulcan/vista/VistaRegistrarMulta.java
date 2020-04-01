@@ -5,12 +5,18 @@
  */
 package parqueaderotulcan.vista;
 
+import java.util.Date;
+import javax.swing.JOptionPane;
+import parqueaderotulcan.controlador.GestorConductor;
+import parqueaderotulcan.controlador.GestorMulta;
+import parqueaderotulcan.modelo.Conductor;
+
 /**
  *
- * @author Felipe
+ * @author Felipe Vidal y Aldair Zemanate
  */
 public class VistaRegistrarMulta extends javax.swing.JFrame {
-
+    boolean estadoConductor=false;
     /**
      * Creates new form VistaRegistrarMulta
      */
@@ -36,19 +42,23 @@ public class VistaRegistrarMulta extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtPlaca = new java.awt.TextField();
+        txtCedula = new java.awt.TextField();
         jLabel2 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jDCFechaMulta = new com.toedter.calendar.JDateChooser();
         jLabel3 = new javax.swing.JLabel();
-        textArea1 = new java.awt.TextArea();
+        txtADescripcion = new java.awt.TextArea();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jCBMM = new javax.swing.JComboBox<>();
+        jCBHH = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        lblConductor = new javax.swing.JLabel();
+        Registrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(600, 500));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -76,112 +86,155 @@ public class VistaRegistrarMulta extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setText("Placa:");
+        jLabel1.setText("Cedula conductor:");
         jPanel1.add(jLabel1, new java.awt.GridBagConstraints());
 
-        txtPlaca.setText("textField1");
-        jPanel1.add(txtPlaca, new java.awt.GridBagConstraints());
+        txtCedula.setPreferredSize(new java.awt.Dimension(60, 20));
+        txtCedula.addTextListener(new java.awt.event.TextListener() {
+            public void textValueChanged(java.awt.event.TextEvent evt) {
+                txtCedulaTextValueChanged(evt);
+            }
+        });
+        jPanel1.add(txtCedula, new java.awt.GridBagConstraints());
 
         jLabel2.setText("Fecha:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         jPanel1.add(jLabel2, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        jPanel1.add(jDateChooser1, gridBagConstraints);
+        gridBagConstraints.gridy = 2;
+        jPanel1.add(jDCFechaMulta, gridBagConstraints);
 
         jLabel3.setText("Descripción:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         jPanel1.add(jLabel3, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 1;
-        jPanel1.add(textArea1, gridBagConstraints);
+        gridBagConstraints.gridy = 2;
+        jPanel1.add(txtADescripcion, gridBagConstraints);
 
         jLabel6.setText("Hora:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         jPanel1.add(jLabel6, gridBagConstraints);
 
         jLabel7.setText("hh:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         jPanel1.add(jLabel7, gridBagConstraints);
 
         jLabel8.setText("mm:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
         jPanel1.add(jLabel8, gridBagConstraints);
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 2;
-        jPanel1.add(jComboBox2, gridBagConstraints);
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", " " }));
+        jCBMM.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        jPanel1.add(jComboBox1, gridBagConstraints);
+        gridBagConstraints.gridy = 4;
+        jPanel1.add(jCBMM, gridBagConstraints);
+
+        jCBHH.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", " " }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        jPanel1.add(jCBHH, gridBagConstraints);
 
         jLabel9.setText("Fotografia");
         jPanel1.add(jLabel9, new java.awt.GridBagConstraints());
+
+        jLabel11.setText("Conductor:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        jPanel1.add(jLabel11, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        jPanel1.add(lblConductor, gridBagConstraints);
+
+        Registrar.setText("Registrar");
+        Registrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegistrarActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        jPanel1.add(Registrar, gridBagConstraints);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+    private void txtCedulaTextValueChanged(java.awt.event.TextEvent evt) {//GEN-FIRST:event_txtCedulaTextValueChanged
+        GestorConductor gc = new GestorConductor();
+        Conductor conductor;
+        if (isNumeric(txtCedula.getText())==true){
+            conductor = gc.consultarConductorCedula(txtCedula.getText());
+                if(conductor.getCedula()!=null ){
+                lblConductor.setText(conductor.getNombre()+" "+conductor.getApellido());
+                estadoConductor=true;
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VistaRegistrarMulta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VistaRegistrarMulta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VistaRegistrarMulta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VistaRegistrarMulta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                else{  
+                lblConductor.setText("");
+                estadoConductor=false;
+            }
         }
-        //</editor-fold>
+    }//GEN-LAST:event_txtCedulaTextValueChanged
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new VistaRegistrarMulta().setVisible(true);
+    private void RegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarActionPerformed
+        GestorMulta gm;
+        gm = new GestorMulta();
+        //Se captura la excepción si no se ha ingresado una fecha
+        try{
+            Date fechaMulta = jDCFechaMulta.getDate();
+            long d = fechaMulta.getTime();
+            java.sql.Date fecha = new java.sql.Date(d);
+            String newFechaMulta = fecha.toString()+" "+jCBHH.getSelectedItem()+":"+jCBMM.getSelectedItem(); 
+            //Se comprueba que la cedula del conductor no contenga letras, simbolos o esté vacio
+            if(isNumeric(txtCedula.getText())==true){
+                if(estadoConductor == true){
+                    gm.ingresarMulta(txtCedula.getText(),newFechaMulta , txtADescripcion.getText());
+                }else{
+                    JOptionPane.showMessageDialog(null,"El conductor no se encuentre registrado en la base de datos");
+                }
+            }else{
+                JOptionPane.showMessageDialog(null,"Ingrese un valor entero en el campo cedula");
             }
-        });
+        }catch( java.lang.NullPointerException n ){
+            JOptionPane.showMessageDialog(null,"Hay campos vacios");
+        }
+        
+    }//GEN-LAST:event_RegistrarActionPerformed
+    private static boolean isNumeric(String cadena){
+        try {
+            Integer.parseInt(cadena);
+            return true;
+    } catch (NumberFormatException nfe){
+	return false;
     }
+}
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JButton Registrar;
+    private javax.swing.JComboBox<String> jCBHH;
+    private javax.swing.JComboBox<String> jCBMM;
+    private com.toedter.calendar.JDateChooser jDCFechaMulta;
     public static javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -193,7 +246,8 @@ public class VistaRegistrarMulta extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
-    private java.awt.TextArea textArea1;
-    private java.awt.TextField txtPlaca;
+    private javax.swing.JLabel lblConductor;
+    private java.awt.TextArea txtADescripcion;
+    private java.awt.TextField txtCedula;
     // End of variables declaration//GEN-END:variables
 }

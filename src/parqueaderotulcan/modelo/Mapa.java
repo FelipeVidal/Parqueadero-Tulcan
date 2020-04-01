@@ -7,7 +7,7 @@ package parqueaderotulcan.modelo;
 
 /**
  *
- * @author Felipe
+ * @author Felipe Vidal y Aldair Zemanate
  */
 public class Mapa {
     private String nombrePuesto;

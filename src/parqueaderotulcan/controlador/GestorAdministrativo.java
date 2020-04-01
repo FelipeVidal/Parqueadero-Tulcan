@@ -13,7 +13,7 @@ import parqueaderotulcan.vista.VistaLogin;
 
 /**
  *
- * @author Felipe
+ * @author Felipe Vidal y Aldair Zemanate
  */
 public class GestorAdministrativo {
      public void ConsultarAdministrativo(String usuario,String pass,VistaLogin vistaLogin){

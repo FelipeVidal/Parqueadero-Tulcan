@@ -7,7 +7,7 @@ package parqueaderotulcan.modelo;
 
 /**
  *
- * @author Felipe
+ * @author Felipe Vidal y Aldair Zemanate
  */
 import parqueaderotulcan.controlador.GestorConductor;
 import java.io.IOException;
@@ -158,16 +158,20 @@ public class ServicioServidorUniversidad implements IServicioUniversidad {
             respuesta = leerFlujoEntradaSalida("informacionConductorCedula",cedulaConductor);
             gc = new GestorConductor();
             Conductor conductor = gc.deserializarConductor(respuesta);
-            if(conductor.getCedula() == null){
-            JOptionPane.showMessageDialog(null,"El conductor con cedula "+cedulaConductor+" no existe en la bases de datos");
-        }else{
-            //Una vez confirma que existe el conductor le asocia el vehiculo registrado
-            leerFlujoEntradaSalidaIngresarVehiculo("ingresarAutomovil",placa,marca,tipo);
-            System.out.println(conductor.getCedula());
-            vincularAutomovilConductor(placa,conductor.getCedula(),conductor.getCodigo());
-        }
             cerrarFlujos();
             desconectar();
+            
+            if(conductor.getCedula() == null){
+                JOptionPane.showMessageDialog(null,"El conductor con cedula "+cedulaConductor+" no existe en la bases de datos");
+            }else{
+            //Una vez confirma que existe el conductor le asocia el vehiculo registrado
+                conectar(IP_SERVIDOR,PUERTO);
+                leerFlujoEntradaSalidaIngresarVehiculo("ingresarAutomovil",placa,marca,tipo);
+                vincularAutomovilConductor(placa,conductor.getCedula(),conductor.getCodigo());
+                cerrarFlujos();
+                desconectar();
+            }
+            
         }catch (IOException ex){
                 Logger.getLogger(ServicioServidorUniversidad.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -213,6 +217,30 @@ public class ServicioServidorUniversidad implements IServicioUniversidad {
             Logger.getLogger(ServicioServidorUniversidad.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    @Override
+    public void ingresarDatosVigilante(String id, String nombre,String apellido,String fecha_nacimiento,String genero ,String empresa,String usuario,String contrasenia){
+      try{
+            conectar(IP_SERVIDOR,PUERTO);
+            leerFlujoEntradaSalidadIngresarVigilante("ingresarVigilante", id, nombre, apellido, fecha_nacimiento, genero, empresa, usuario,contrasenia);
+            cerrarFlujos();
+            desconectar();
+        } catch (IOException ex) {
+           Logger.getLogger(ServicioServidorUniversidad.class.getName()).log(Level.SEVERE, null, ex);
+       }   
+    }
+    @Override 
+    public void registrarMulta(String cedulaConductor, String fecha, String descripcion){
+        try{
+            conectar(IP_SERVIDOR,PUERTO);
+            leerFlujoEntradaSalidadRegistrarMulta("registrarMulta", cedulaConductor, fecha, descripcion);
+            cerrarFlujos();
+            desconectar();
+        } catch (IOException ex) {
+           Logger.getLogger(ServicioServidorUniversidad.class.getName()).log(Level.SEVERE, null, ex);
+       }
+    }
+
 
     private void leerFlujoEntradaSalidaActualizarBahia(String consulta,String estado,String nombreBahia) throws IOException{
          entradaDecorada = new Scanner(socket.getInputStream());
@@ -265,7 +293,19 @@ public class ServicioServidorUniversidad implements IServicioUniversidad {
         salidaDecorada.flush();
         salidaDecorada.println(consulta+","+placa+","+id+","+codigo);
     }
-   
+    
+    private void leerFlujoEntradaSalidadIngresarVigilante(String consulta,String id, String nombre,String apellido,String fecha_nacimiento,String genero ,String empresa,String usuario,String contrasenia) throws IOException{
+        entradaDecorada = new Scanner(socket.getInputStream());
+        salidaDecorada = new PrintStream(socket.getOutputStream());
+        salidaDecorada.flush();
+        salidaDecorada.println(consulta+","+id+","+nombre+","+apellido+","+fecha_nacimiento+","+genero+","+empresa+","+usuario+","+contrasenia);
+    }
+    private void leerFlujoEntradaSalidadRegistrarMulta(String consulta,String cedulaConductor, String fecha, String descripcion) throws IOException{
+        entradaDecorada = new Scanner(socket.getInputStream());
+        salidaDecorada = new PrintStream(socket.getOutputStream());
+        salidaDecorada.flush();
+        salidaDecorada.println(consulta+","+cedulaConductor+","+fecha+","+descripcion);
+    }
     
     private void cerrarFlujos() {
         salidaDecorada.close();

@@ -9,7 +9,7 @@ import parqueaderotulcan.modelo.ServicioServidorUniversidad;
 
 /**
  *
- * @author Felipe
+ * @author Felipe Vidal y Aldair Zemanate
  */
 public class GestorInicio {
     public String confirmarLogin(String usuario,String pass){

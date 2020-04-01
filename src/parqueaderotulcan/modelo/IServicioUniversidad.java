@@ -7,7 +7,7 @@ package parqueaderotulcan.modelo;
 
 /**
  *
- * @author Felipe
+ * @author Felipe Vidal y Aldair Zemanate
  */
 public interface IServicioUniversidad {
     public String datosConductorCedula(String entradaCedula);
@@ -22,5 +22,6 @@ public interface IServicioUniversidad {
     public void ingresarDatosConductor(String cedula, String codigo,String nombre,String apellido,String rol, String genero , String fechaNacimiento);
     public void ingresarDatosAutomovil(String placa,String marca,String tipo,String cedulaConductor);
     public void vincularAutomovilConductor(String placa,String numeroId,String codigo);
-    
+    public void ingresarDatosVigilante(String id, String nombre,String apellido,String fecha_nacimiento,String genero ,String empresa,String usuario,String contrasenia);
+    public void registrarMulta(String cedulaConductor, String fecha, String descripcion );
 }

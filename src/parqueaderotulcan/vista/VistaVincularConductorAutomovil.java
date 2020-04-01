@@ -5,20 +5,31 @@
  */
 package parqueaderotulcan.vista;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import parqueaderotulcan.controlador.GestorConductor;
+import parqueaderotulcan.modelo.Conductor;
 
 /**
  *
- * @author Felipe
+ * @author Felipe Vidal y Aldair Zemanate
  */
 public class VistaVincularConductorAutomovil extends javax.swing.JFrame {
-
+    VistaConsultaConductor vcc;
+    boolean estadoConductor;
     /**
      * Creates new form VistaVincularConductorAutomovil
      */
-    public VistaVincularConductorAutomovil() {
+    public VistaVincularConductorAutomovil(VistaConsultaConductor vcc) {
+        this.vcc=vcc;
         initComponents();
+        inicializarTabla();
+        vcc.setVisible(false);
     }
+    private void inicializarTabla(){
+        tblDatosConductor.setModel(new javax.swing.table.DefaultTableModel(new Object [] [] {},new String[]{"Nombre","Apellido","Cedula","Código","Fecha Nacimiento","Rol"}));
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -42,9 +53,19 @@ public class VistaVincularConductorAutomovil extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtId = new java.awt.TextField();
         btnVincular = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblDatosConductor = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(600, 300));
+        setMinimumSize(new java.awt.Dimension(600, 500));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -85,9 +106,15 @@ public class VistaVincularConductorAutomovil extends javax.swing.JFrame {
         jPanel1.add(jLabel2, gridBagConstraints);
 
         txtId.setPreferredSize(new java.awt.Dimension(200, 20));
+        txtId.addTextListener(new java.awt.event.TextListener() {
+            public void textValueChanged(java.awt.event.TextEvent evt) {
+                txtIdTextValueChanged(evt);
+            }
+        });
         jPanel1.add(txtId, new java.awt.GridBagConstraints());
 
         btnVincular.setText("Vincular");
+        btnVincular.setEnabled(false);
         btnVincular.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVincularActionPerformed(evt);
@@ -95,8 +122,29 @@ public class VistaVincularConductorAutomovil extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         jPanel1.add(btnVincular, gridBagConstraints);
+
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(300, 100));
+
+        tblDatosConductor.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblDatosConductor.setPreferredSize(new java.awt.Dimension(700, 16));
+        jScrollPane1.setViewportView(tblDatosConductor);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        jPanel1.add(jScrollPane1, gridBagConstraints);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -105,43 +153,58 @@ public class VistaVincularConductorAutomovil extends javax.swing.JFrame {
 
     private void btnVincularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVincularActionPerformed
         GestorConductor gc = new GestorConductor();
-        gc.vincularConductorVehiculo(txtPlaca.getText(),txtId.getText());
+        if(isNumeric(txtId.getText())==true){
+            if(txtPlaca.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Ingrese una placa");
+            }else{
+                gc.vincularConductorVehiculo(txtPlaca.getText(),txtId.getText());
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"Ingrese un valor entero en el campo 'Numero de documento del conductor'");
+
+        }
     }//GEN-LAST:event_btnVincularActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+    private void txtIdTextValueChanged(java.awt.event.TextEvent evt) {//GEN-FIRST:event_txtIdTextValueChanged
+        GestorConductor gc = new GestorConductor();
+        Conductor conductor;
+        if(isNumeric(txtId.getText())==true){
+            conductor = gc.consultarConductorCedula(txtId.getText());
+            inicializarTabla();
+            if(conductor.getCedula()!=null){
+                btnVincular.setEnabled(true);
+                DefaultTableModel model = (DefaultTableModel) tblDatosConductor.getModel();
+                Object rowData[] = new Object[6];
+                rowData[0]=conductor.getNombre();
+                rowData[1]=conductor.getApellido();
+                rowData[2]=conductor.getCedula();
+                rowData[3]=conductor.getCodigo();
+                rowData[4]=conductor.getFecha_nacimiento();
+                rowData[5]=conductor.getRol();
+                model.addRow(rowData);
+                 
+            }else{
+                btnVincular.setEnabled(false);
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VistaVincularConductorAutomovil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VistaVincularConductorAutomovil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VistaVincularConductorAutomovil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VistaVincularConductorAutomovil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new VistaVincularConductorAutomovil().setVisible(true);
-            }
-        });
+    }//GEN-LAST:event_txtIdTextValueChanged
+private static boolean isNumeric(String cadena){
+    try {
+        Integer.parseInt(cadena);
+        return true;
+    } catch (NumberFormatException nfe){
+	return false;
     }
+}
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        vcc.setVisible(true);
+        
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+                vcc.setVisible(true);
+
+    }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnVincular;
@@ -154,6 +217,8 @@ public class VistaVincularConductorAutomovil extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblDatosConductor;
     private java.awt.TextField txtId;
     private java.awt.TextField txtPlaca;
     // End of variables declaration//GEN-END:variables

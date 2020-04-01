@@ -7,7 +7,7 @@ package parqueaderotulcan.modelo;
 
 /**
  *
- * @author Felipe
+ * @author Felipe Vidal y Aldair Zemanate
  */
 public abstract class Persona {
     private String id;

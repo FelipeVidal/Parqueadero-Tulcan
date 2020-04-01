@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Felipe
+ * @author Felipe Vidal y Aldair Zemanate
  */
 public class VistaLogin extends javax.swing.JFrame {
 
@@ -43,8 +43,8 @@ public class VistaLogin extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btnIngresar = new javax.swing.JButton();
         txtUsuario = new java.awt.TextField();
-        txtPass = new java.awt.TextField();
         jLabel3 = new javax.swing.JLabel();
+        txtPass = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(600, 400));
@@ -104,17 +104,17 @@ public class VistaLogin extends javax.swing.JFrame {
         gridBagConstraints.gridy = 1;
         jPanel1.add(txtUsuario, gridBagConstraints);
 
-        txtPass.setPreferredSize(new java.awt.Dimension(200, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        jPanel1.add(txtPass, gridBagConstraints);
-
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/archivos/unicauca1.jpg"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         jPanel1.add(jLabel3, gridBagConstraints);
+
+        txtPass.setPreferredSize(new java.awt.Dimension(200, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        jPanel1.add(txtPass, gridBagConstraints);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -191,7 +191,7 @@ public class VistaLogin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
-    private java.awt.TextField txtPass;
+    private javax.swing.JPasswordField txtPass;
     private java.awt.TextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

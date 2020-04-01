@@ -7,7 +7,7 @@ package parqueaderotulcan.controlador;
 import parqueaderotulcan.vista.VistaLogin;
 /**
  *
- * @author Felipe
+ * @author Felipe Vidal y Aldair Zemanate
  */
 public class Main {
      public static void main(String args[]){

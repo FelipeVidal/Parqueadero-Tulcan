@@ -9,7 +9,7 @@ import parqueaderotulcan.controlador.GestorMapa;
 
 /**
  *
- * @author Felipe
+ * @author Felipe Vidal y Aldair Zemanate
  */
 public class VistaVigilante extends javax.swing.JFrame {
 
@@ -52,12 +52,13 @@ public class VistaVigilante extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMOpConsultarConductor = new javax.swing.JMenuItem();
+        jMOpMulta = new javax.swing.JMenuItem();
         jMOpAdminMapa = new javax.swing.JMenuItem();
         jMOpCerrarSesion = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 102, 153));
-        setPreferredSize(new java.awt.Dimension(800, 600));
+        setPreferredSize(new java.awt.Dimension(600, 500));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -176,7 +177,15 @@ public class VistaVigilante extends javax.swing.JFrame {
         });
         jMenu1.add(jMOpConsultarConductor);
 
-        jMOpAdminMapa.setText("Administrar Mapa");
+        jMOpMulta.setText("Añadir multa");
+        jMOpMulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMOpMultaActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMOpMulta);
+
+        jMOpAdminMapa.setText("Mapa Entrada/Salida Vehiculos");
         jMOpAdminMapa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMOpAdminMapaActionPerformed(evt);
@@ -201,7 +210,7 @@ public class VistaVigilante extends javax.swing.JFrame {
     
     private void jMOpConsultarConductorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMOpConsultarConductorActionPerformed
         VistaConsultaConductor vcc;
-        vcc = new VistaConsultaConductor();
+        vcc = new VistaConsultaConductor(this);
         vcc.setVisible(true);
     }//GEN-LAST:event_jMOpConsultarConductorActionPerformed
 
@@ -218,10 +227,14 @@ public class VistaVigilante extends javax.swing.JFrame {
            VistaLogin vl = new VistaLogin();
            vl.setVisible(true);
     }//GEN-LAST:event_jMOpCerrarSesionActionPerformed
+
+    private void jMOpMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMOpMultaActionPerformed
+         VistaRegistrarMulta vrm;
+         vrm = new VistaRegistrarMulta();
+         vrm.setVisible(true);
+    }//GEN-LAST:event_jMOpMultaActionPerformed
     
-    /**
-     * @param args the command line arguments
-     */
+
     public void infoVigilante(String nombre,String apellido,String id,String fechaNacimiento,String genero,String empresa){
         lblNombre.setText(nombre);
         lblApellido.setText(apellido);
@@ -229,40 +242,6 @@ public class VistaVigilante extends javax.swing.JFrame {
         lblFechaNacimiento.setText(fechaNacimiento);
         lblGenero.setText(genero);
         lblEmpresa.setText(empresa);       
-    }
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VistaVigilante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VistaVigilante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VistaVigilante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VistaVigilante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new VistaVigilante().setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -278,6 +257,7 @@ public class VistaVigilante extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMOpAdminMapa;
     private javax.swing.JMenuItem jMOpCerrarSesion;
     private javax.swing.JMenuItem jMOpConsultarConductor;
+    private javax.swing.JMenuItem jMOpMulta;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;

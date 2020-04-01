@@ -5,17 +5,22 @@
  */
 package parqueaderotulcan.vista;
 
+import java.util.Date;
+import parqueaderotulcan.controlador.GestorVigilante;
+
 /**
  *
- * @author Felipe
+ * @author Felipe Vidal y Aldair Zemanate
  */
 public class VistaRegistrarVigilante extends javax.swing.JFrame {
-
+    VistaAdministrador vistaPadreAdministrativo;
     /**
      * Creates new form VistaRegistrarVigilante
      */
-    public VistaRegistrarVigilante() {
+    public VistaRegistrarVigilante( VistaAdministrador vistaPadreAdministrativo) {
         initComponents();
+        this.vistaPadreAdministrativo=vistaPadreAdministrativo;
+        vistaPadreAdministrativo.setVisible(false);
     }
 
     /**
@@ -35,18 +40,29 @@ public class VistaRegistrarVigilante extends javax.swing.JFrame {
         lbNam = new javax.swing.JLabel();
         lblApeliidos = new javax.swing.JLabel();
         lblGen = new javax.swing.JLabel();
-        lblFN = new javax.swing.JLabel();
+        lblId = new javax.swing.JLabel();
         txtName = new java.awt.TextField();
         lblEmpresa = new javax.swing.JLabel();
         jdcFecha = new com.toedter.calendar.JDateChooser();
-        txtApe = new java.awt.TextField();
+        txtId = new java.awt.TextField();
         txtEmpresa = new java.awt.TextField();
-        btnSave = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        btnGuardar = new javax.swing.JButton();
+        jCBGenero = new javax.swing.JComboBox<>();
+        lblFN1 = new javax.swing.JLabel();
+        txtApe = new java.awt.TextField();
+        lblUs = new java.awt.Label();
+        txtUsuario = new java.awt.TextField();
+        lblCon = new java.awt.Label();
+        txtContra = new java.awt.TextField();
         jPanel4 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -85,11 +101,11 @@ public class VistaRegistrarVigilante extends javax.swing.JFrame {
         gridBagConstraints.gridy = 1;
         jPanel1.add(lblGen, gridBagConstraints);
 
-        lblFN.setText("Fecha Nacimiento");
+        lblId.setText("Identificación");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        jPanel1.add(lblFN, gridBagConstraints);
+        gridBagConstraints.gridy = 2;
+        jPanel1.add(lblId, gridBagConstraints);
 
         txtName.setPreferredSize(new java.awt.Dimension(60, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -112,12 +128,12 @@ public class VistaRegistrarVigilante extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 1, 0, 1);
         jPanel1.add(jdcFecha, gridBagConstraints);
 
-        txtApe.setPreferredSize(new java.awt.Dimension(60, 20));
+        txtId.setPreferredSize(new java.awt.Dimension(60, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel1.add(txtApe, gridBagConstraints);
+        jPanel1.add(txtId, gridBagConstraints);
 
         txtEmpresa.setPreferredSize(new java.awt.Dimension(60, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -126,17 +142,61 @@ public class VistaRegistrarVigilante extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel1.add(txtEmpresa, gridBagConstraints);
 
-        btnSave.setText("Guardar");
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
-        jPanel1.add(btnSave, gridBagConstraints);
+        gridBagConstraints.gridy = 4;
+        jPanel1.add(btnGuardar, gridBagConstraints);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Maculino", "Femenino", "Otro" }));
+        jCBGenero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Maculino", "Femenino", "Otro" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        jPanel1.add(jComboBox1, gridBagConstraints);
+        jPanel1.add(jCBGenero, gridBagConstraints);
+
+        lblFN1.setText("Fecha Nacimiento");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        jPanel1.add(lblFN1, gridBagConstraints);
+
+        txtApe.setPreferredSize(new java.awt.Dimension(60, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel1.add(txtApe, gridBagConstraints);
+
+        lblUs.setText("Usuario:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        jPanel1.add(lblUs, gridBagConstraints);
+
+        txtUsuario.setPreferredSize(new java.awt.Dimension(60, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel1.add(txtUsuario, gridBagConstraints);
+
+        lblCon.setText("Contraseña");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        jPanel1.add(lblCon, gridBagConstraints);
+
+        txtContra.setPreferredSize(new java.awt.Dimension(60, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel1.add(txtContra, gridBagConstraints);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -148,44 +208,22 @@ public class VistaRegistrarVigilante extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VistaRegistrarVigilante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VistaRegistrarVigilante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VistaRegistrarVigilante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VistaRegistrarVigilante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // Logica para registrar capturar los datos y registrarlos en la base de datos
+        GestorVigilante gv = new GestorVigilante();
+        Date fechaNacimiento = jdcFecha.getDate();
+        long d = fechaNacimiento.getTime();
+        java.sql.Date fecha_nacimiento = new java.sql.Date(d);
+        gv.RegistrarVigilante(txtId.getText(), txtName.getText(),txtApe.getText() ,fecha_nacimiento.toString(), jCBGenero.getSelectedItem().toString(), txtEmpresa.getText(), txtUsuario.getText(), txtContra.getText());
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new VistaRegistrarVigilante().setVisible(true);
-            }
-        });
-    }
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        vistaPadreAdministrativo.setVisible(true);
+    }//GEN-LAST:event_formWindowClosed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnSave;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JComboBox<String> jCBGenero;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
@@ -195,11 +233,17 @@ public class VistaRegistrarVigilante extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser jdcFecha;
     private javax.swing.JLabel lbNam;
     private javax.swing.JLabel lblApeliidos;
+    private java.awt.Label lblCon;
     private javax.swing.JLabel lblEmpresa;
-    private javax.swing.JLabel lblFN;
+    private javax.swing.JLabel lblFN1;
     private javax.swing.JLabel lblGen;
+    private javax.swing.JLabel lblId;
+    private java.awt.Label lblUs;
     private java.awt.TextField txtApe;
+    private java.awt.TextField txtContra;
     private java.awt.TextField txtEmpresa;
+    private java.awt.TextField txtId;
     private java.awt.TextField txtName;
+    private java.awt.TextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

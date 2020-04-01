@@ -11,7 +11,7 @@ import parqueaderotulcan.modelo.ServicioServidorUniversidad;
 
 /**
  *
- * @author Felipe
+ * @author Felipe Vidal y Aldair Zemanate
  */
 public class GestorMapa {
     public Mapa[] actualizarMapa(){

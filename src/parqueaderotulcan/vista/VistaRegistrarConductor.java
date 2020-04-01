@@ -7,18 +7,21 @@ package parqueaderotulcan.vista;
 
 import parqueaderotulcan.controlador.GestorConductor;
 import java.util.Date;
+import javax.swing.JOptionPane;
 
 /**
  *
- * @author Felipe
+ * @author Felipe Vidal y Aldair Zemanate
  */
 public class VistaRegistrarConductor extends javax.swing.JFrame {
-
+    VistaConsultaConductor vcc;
     /**
      * Creates new form VistaRegistrarConductor
      */
-    public VistaRegistrarConductor() {
+    public VistaRegistrarConductor(VistaConsultaConductor vcc) {
         initComponents();
+        this.vcc=vcc;
+        vcc.setVisible(false);
     }
 
     /**
@@ -56,6 +59,12 @@ public class VistaRegistrarConductor extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(600, 500));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -164,7 +173,7 @@ public class VistaRegistrarConductor extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         jPanel1.add(btnIngresar, gridBagConstraints);
 
         jDFechaNacimiento.setDateFormatString("dd/MM/yyyy");
@@ -192,56 +201,44 @@ public class VistaRegistrarConductor extends javax.swing.JFrame {
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         GestorConductor gs;
         gs = new GestorConductor();
-        Date fechaNacimiento = jDFechaNacimiento.getDate();
-        long d = fechaNacimiento.getTime();
-        java.sql.Date fecha = new java.sql.Date(d);
+        try{
+            Date fechaNacimiento = jDFechaNacimiento.getDate();
+            long d = fechaNacimiento.getTime();
+            java.sql.Date fecha = new java.sql.Date(d);
         
         
-        //String fechaNacimiento = txtFechaNacimientoAnio.getText()+"/"+txtFechaNacimientoMes.getText()+"/"+txtFechaNacimientoDia.getText();
-        String genero;
-        String rol = jComboRol.getSelectedItem().toString();
-        if(rBMasculino.isSelected() == true){
-            genero = "Masculino";
+            //String fechaNacimiento = txtFechaNacimientoAnio.getText()+"/"+txtFechaNacimientoMes.getText()+"/"+txtFechaNacimientoDia.getText();
+            String genero;
+            String rol = jComboRol.getSelectedItem().toString();
+            if(rBMasculino.isSelected() == true){
+                genero = "Masculino";
+            }
+            else{
+                genero = "Femenino";
+            }
+            if(isNumeric(txtCedula.getText())==true && isNumeric(txtCodigo.getText()) == true){
+                gs.ingresarConductor(txtCedula.getText(),txtCodigo.getText(),txtNombre.getText(), txtApellido.getText(),rol,genero,fecha.toString());
+            }else{
+                JOptionPane.showMessageDialog(null,"Los campos 'Codigo' y 'Cedula' deben de ser valores numericos");
+            }
+        }catch(java.lang.NullPointerException n){
+            JOptionPane.showMessageDialog(null,"Hay campos vacios");
+
         }
-        else{
-            genero = "Femenino";
-        }
-        gs.ingresarConductor(txtCedula.getText(),txtCodigo.getText(),txtNombre.getText(), txtApellido.getText(),rol,genero,fecha.toString());
+  
     }//GEN-LAST:event_btnIngresarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VistaRegistrarConductor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VistaRegistrarConductor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VistaRegistrarConductor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VistaRegistrarConductor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        vcc.setVisible(true);
+    }//GEN-LAST:event_formWindowClosed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new VistaRegistrarConductor().setVisible(true);
-            }
-        });
+       private static boolean isNumeric(String cadena){
+        try {
+            Integer.parseInt(cadena);
+            return true;
+        } catch (NumberFormatException nfe){
+            return false;
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

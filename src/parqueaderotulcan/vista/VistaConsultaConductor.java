@@ -7,26 +7,25 @@ package parqueaderotulcan.vista;
 
 import parqueaderotulcan.controlador.GestorConductor;
 import parqueaderotulcan.controlador.GestorMapa;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import parqueaderotulcan.modelo.Automovil;
+import parqueaderotulcan.modelo.Conductor;
 
  /*
- * @author Felipe
+ * @author Felipe Vidal y Aldair Zemanate
  */
-/**
- *
- * @author Felipe
- */
-public class VistaConsultaConductor extends javax.swing.JFrame {
 
+public class VistaConsultaConductor extends javax.swing.JFrame {
+    VistaVigilante vistaPadreVigilante;
     /**
      * Creates new form VistaConsultarConductor
      */
-    public VistaConsultaConductor() {
+    public VistaConsultaConductor(VistaVigilante vistaPadreVigilante) {
         initComponents();
         inicializarTabla();
+        this.vistaPadreVigilante=vistaPadreVigilante;
+        vistaPadreVigilante.setVisible(false);
     }
 
     /**
@@ -49,7 +48,6 @@ public class VistaConsultaConductor extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txtIdentificacion = new java.awt.TextField();
         jLabel11 = new javax.swing.JLabel();
-        btnGestionarPuesto = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -92,7 +90,13 @@ public class VistaConsultaConductor extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(800, 400));
+        setMinimumSize(new java.awt.Dimension(500, 500));
+        setPreferredSize(new java.awt.Dimension(700, 600));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -150,18 +154,6 @@ public class VistaConsultaConductor extends javax.swing.JFrame {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         jPanel1.add(jLabel11, gridBagConstraints);
-
-        btnGestionarPuesto.setText("Gestionar puesto ");
-        btnGestionarPuesto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGestionarPuestoActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.insets = new java.awt.Insets(13, 0, 0, 0);
-        jPanel1.add(btnGestionarPuesto, gridBagConstraints);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -307,7 +299,7 @@ public class VistaConsultaConductor extends javax.swing.JFrame {
 
         jMOp.setText("Opciones");
 
-        jMOpGestionMapa.setText("Gestion mapa");
+        jMOpGestionMapa.setText("Mapa Entrada/Salida Vehiculos");
         jMOpGestionMapa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMOpGestionMapaActionPerformed(evt);
@@ -346,41 +338,62 @@ public class VistaConsultaConductor extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnGestionarPuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarPuestoActionPerformed
-     
-    }//GEN-LAST:event_btnGestionarPuestoActionPerformed
-
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        //Logica para buscar un conductor en la base de datos
         String id;
+        Conductor conductor = null;
         GestorConductor consulConductor;
         id = txtIdentificacion.getText();
         if(id.equals("")){
             JOptionPane.showMessageDialog(null,"Debe ingresar el documento para continuar");
         }else{
+            //Si se ha seleccionado el boton "Codigo" en la vista, se busca en la bases de datos por codigo
             if(rBSelectCodi.isSelected() == true ){
                 consulConductor = new GestorConductor();
-                consulConductor.consultarConductorCodigo(id,this);
-                consulConductor.cosultarAutomovilCodigo(id, this);
+                //Se llama al respectivo metodo en la clase GestorConductor. El metodo se comunicacara con  los servicios del servidios para
+                //buscar la informacion en la base de datos
+                conductor=consulConductor.consultarConductorCodigo(id);
+                 if(conductor!=null){
+                    //Si existe el conductor, se busca en la base de datos los vehiculo asociados
+                    Automovil [] newAutomovilesConsul=consulConductor.cosultarAutomovilCodigo(id);
+                    mostrarConductor(conductor);
+                    mostrarAutomovil(newAutomovilesConsul);
+                }else{
+                    JOptionPane.showMessageDialog(null,"El conductor con código "+id+" no existe en la bases de datos");
+                    limpiarDatos();
+                }
+               
             }else{
+                //Si se ha seleccionado el boton "Cedula" en la vista, se busca en la bases de datos por cedula
                 consulConductor = new GestorConductor();
-                consulConductor.consultarConductorCedula(id,this);
-                consulConductor.cosultarAutomovilCedula(id, this);
+                //Se llama al respectivo metodo en la clase GestorConductor. El metodo se comunicacara con  los servicios del servidios para
+                //buscar la informacion en la base de datos
+                conductor=consulConductor.consultarConductorCedula(id);
+                if(conductor.getCedula()!=null){
+                    //Si existe el conductor, se busca en la base de datos los vehiculo asociados
+                    Automovil [] newAutomovilesConsul=consulConductor.cosultarAutomovilCedula(id);
+                    mostrarConductor(conductor);
+                    mostrarAutomovil(newAutomovilesConsul);
+                }else{
+                    JOptionPane.showMessageDialog(null,"El conductor con cedula "+id+" no existe en la bases de datos");
+                    limpiarDatos();
+                }
             }
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
-
+    
     private void jMORegistrarConductorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMORegistrarConductorActionPerformed
-        VistaRegistrarConductor vrg = new VistaRegistrarConductor();
+        VistaRegistrarConductor vrg = new VistaRegistrarConductor(this);
         vrg.setVisible(true);
     }//GEN-LAST:event_jMORegistrarConductorActionPerformed
 
     private void jMOpRegistrarAutomovilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMOpRegistrarAutomovilActionPerformed
-        VistaRegistrarAutomovil vra = new VistaRegistrarAutomovil();
+        VistaRegistrarAutomovil vra = new VistaRegistrarAutomovil(this);
         vra.setVisible(true);
     }//GEN-LAST:event_jMOpRegistrarAutomovilActionPerformed
 
     private void jMOpVincularConductorAutomovilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMOpVincularConductorAutomovilActionPerformed
-        VistaVincularConductorAutomovil vvca = new VistaVincularConductorAutomovil();
+        VistaVincularConductorAutomovil vvca = new VistaVincularConductorAutomovil(this);
         vvca.setVisible(true);
     }//GEN-LAST:event_jMOpVincularConductorAutomovilActionPerformed
 
@@ -388,7 +401,12 @@ public class VistaConsultaConductor extends javax.swing.JFrame {
         VistaMapa vm = new VistaMapa();
         GestorMapa gm = new GestorMapa();
         vm.actualizar(gm.actualizarMapa());
+        
     }//GEN-LAST:event_jMOpGestionMapaActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        vistaPadreVigilante.setVisible(true);
+    }//GEN-LAST:event_formWindowClosed
     private void inicializarTabla(){
         tblAutomovil.setModel(new javax.swing.table.DefaultTableModel(new Object [] [] {},new String[]{"Placa","Marca","Tipo"}));
     } 
@@ -402,14 +420,14 @@ public class VistaConsultaConductor extends javax.swing.JFrame {
         lblRol.setText("");
         inicializarTabla();
     }
-    public void mostrarConductor(String nombre,String apellido,String cedula, String codigo,String rol,String fechaNacimiento,String genero){    
-        lblNombre.setText(nombre);
-        lblApellido.setText(apellido);
-        lblCedula.setText(cedula);
-        lblCodigo.setText(codigo);
-        lblFechaNacimiento.setText(fechaNacimiento);
-        lblGenero.setText(genero);
-        lblRol.setText(rol);
+    public void mostrarConductor(Conductor conductor){    
+        lblNombre.setText(conductor.getNombre());
+        lblApellido.setText(conductor.getApellido());
+        lblCedula.setText(conductor.getCedula());
+        lblCodigo.setText(conductor.getCodigo());
+        lblFechaNacimiento.setText(conductor.getFecha_nacimiento());
+        lblGenero.setText(conductor.getGenero());
+        lblRol.setText(conductor.getRol());
     }
     public void mostrarAutomovil(Automovil[] automovil){
         inicializarTabla();
@@ -426,7 +444,6 @@ public class VistaConsultaConductor extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.ButtonGroup btnGOpcion;
-    private javax.swing.JButton btnGestionarPuesto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

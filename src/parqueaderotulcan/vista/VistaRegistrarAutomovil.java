@@ -5,19 +5,25 @@
  */
 package parqueaderotulcan.vista;
 
+import javax.swing.JOptionPane;
 import parqueaderotulcan.controlador.GestorConductor;
+import parqueaderotulcan.modelo.Conductor;
 
 /**
  *
- * @author Felipe
+ * @author Felipe Vidal y Aldair Zemanate
  */
 public class VistaRegistrarAutomovil extends javax.swing.JFrame {
+    VistaConsultaConductor vcc;
+    boolean estadoConductor;
 
     /**
      * Creates new form VistaRegistrarAutomovil
      */
-    public VistaRegistrarAutomovil() {
+    public VistaRegistrarAutomovil(VistaConsultaConductor vcc) {
         initComponents();
+        this.vcc=vcc;
+        vcc.setVisible(false);
     }
 
     /**
@@ -45,8 +51,16 @@ public class VistaRegistrarAutomovil extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         txtConductor = new java.awt.TextField();
+        lblConductor = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(600, 500));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -111,7 +125,7 @@ public class VistaRegistrarAutomovil extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         jPanel1.add(jButton1, gridBagConstraints);
 
         jLabel7.setText("Cedula conductor");
@@ -121,10 +135,25 @@ public class VistaRegistrarAutomovil extends javax.swing.JFrame {
         jPanel1.add(jLabel7, gridBagConstraints);
 
         txtConductor.setPreferredSize(new java.awt.Dimension(60, 20));
+        txtConductor.addTextListener(new java.awt.event.TextListener() {
+            public void textValueChanged(java.awt.event.TextEvent evt) {
+                txtConductorTextValueChanged(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
         jPanel1.add(txtConductor, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 2;
+        jPanel1.add(lblConductor, gridBagConstraints);
+
+        jLabel9.setText("Conductor:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        jPanel1.add(jLabel9, gridBagConstraints);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -133,42 +162,47 @@ public class VistaRegistrarAutomovil extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         GestorConductor gs = new GestorConductor();
-        gs.ingresarVehiculo(txtPlaca.getText(), txtMarca.getText(), jComboTipoAutomovil.getSelectedItem().toString(),txtConductor.getText());
-    }//GEN-LAST:event_jButton1ActionPerformed
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VistaRegistrarAutomovil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VistaRegistrarAutomovil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VistaRegistrarAutomovil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VistaRegistrarAutomovil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+        //Se comptueba que las casillas no se encuentren vacias
+        if(txtPlaca.getText().equals("") || txtMarca.getText().equals("")||txtConductor.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Exiten campos vacios");
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new VistaRegistrarAutomovil().setVisible(true);
+        }else{
+            if(estadoConductor==true){
+                gs.ingresarVehiculo(txtPlaca.getText(), txtMarca.getText(), jComboTipoAutomovil.getSelectedItem().toString(),txtConductor.getText());
+            }else{
+                JOptionPane.showMessageDialog(null,"El conductor no se encuentre registrado en la base de datos");
             }
-        });
+
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        vcc.setVisible(true);
+    }//GEN-LAST:event_formWindowClosed
+
+    private void txtConductorTextValueChanged(java.awt.event.TextEvent evt) {//GEN-FIRST:event_txtConductorTextValueChanged
+        GestorConductor gc = new GestorConductor();
+        Conductor conductor;
+        if (isNumeric(txtConductor.getText())==true){
+            conductor = gc.consultarConductorCedula(txtConductor.getText());
+                if(conductor.getCedula()!=null ){
+                lblConductor.setText(conductor.getNombre()+" "+conductor.getApellido());
+                estadoConductor=true;
+            }
+                else{  
+                lblConductor.setText("");
+                estadoConductor=false;
+            }
+        }
+    }//GEN-LAST:event_txtConductorTextValueChanged
+    private static boolean isNumeric(String cadena){
+        try {
+            Integer.parseInt(cadena);
+            return true;
+        } catch (NumberFormatException nfe){
+            return false;
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -181,9 +215,11 @@ public class VistaRegistrarAutomovil extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel lblConductor;
     private java.awt.TextField txtConductor;
     private java.awt.TextField txtMarca;
     private java.awt.TextField txtPlaca;

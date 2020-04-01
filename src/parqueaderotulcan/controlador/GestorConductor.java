@@ -11,11 +11,9 @@ import parqueaderotulcan.modelo.Automovil;
 import parqueaderotulcan.modelo.Conductor;
 import parqueaderotulcan.modelo.ServicioServidorUniversidad;
 
-import parqueaderotulcan.vista.VistaConsultaConductor;
-
 /**
  *
- * @author Felipe
+ * @author Felipe Vidal y Aldair Zemanate
  */
 public class GestorConductor {
 
@@ -23,7 +21,7 @@ public class GestorConductor {
         
     }
     
-    public void consultarConductorCedula(String cedula,VistaConsultaConductor vistaConductor){
+    public Conductor consultarConductorCedula(String cedula){
         String arrayJsonSerializado;
         //Se crea una instancia de ServicioServidorUniversidad para poder consultar la informacion del conductor por cedula
         ServicioServidorUniversidad servicioUniversidad = new ServicioServidorUniversidad();
@@ -31,15 +29,10 @@ public class GestorConductor {
         Conductor conductor = deserializarConductor(arrayJsonSerializado);
         //Si el servidor no retorno la infomación basica del conductor, se entiene que no se encuentra registrado en la
         //base de datos
-        if(conductor.getCedula() == null){
-            JOptionPane.showMessageDialog(null,"El conductor con cedula "+cedula+" no existe en la bases de datos");
-            vistaConductor.limpiarDatos();
-        }else{
-            mostrarConductor(conductor,vistaConductor);
-        }
+        return conductor;
         
     }
-    public void consultarConductorCodigo(String codigo,VistaConsultaConductor vistaConductor){
+    public Conductor consultarConductorCodigo(String codigo){
         String arrayJsonSerializado;
         //Se crea una instancia de ServicioServidorUniversidad para poder consultar la informacion del conductor por codigo 
         ServicioServidorUniversidad servicioUniversidad = new ServicioServidorUniversidad();
@@ -49,12 +42,12 @@ public class GestorConductor {
         //base de datos 
         if(conductor.getCodigo() == null){
              JOptionPane.showMessageDialog(null,"El conductor codigo "+codigo+" no existe en la bases de datos");
-             vistaConductor.limpiarDatos();
         }else{
-           mostrarConductor(conductor,vistaConductor);
+           return conductor;
         }
+        return null;
     }
-    public Automovil[] cosultarAutomovilCedula(String cedula,VistaConsultaConductor vistaConductor ){
+    public Automovil[] cosultarAutomovilCedula(String cedula){
         String arrayJsonSerializado;
         //Se crea una instancia de ServicioServidorUniversidad para poder consultar la informacion de los automoviles del 
         //conductor por cedula. 
@@ -63,25 +56,17 @@ public class GestorConductor {
         arrayJsonSerializado = servicioUniversidad.datosAutomovilesPorCedula(cedula);
         //Los datos del automovil se deserializan y si guardan en un arreglo de tipo Automovil
         Automovil [] newAutomoviles = new Gson().fromJson(arrayJsonSerializado, Automovil[].class);
-        mostrarAuto(newAutomoviles,vistaConductor);
         return(newAutomoviles);    
     }
-    public Automovil[] cosultarAutomovilCodigo(String codigo,VistaConsultaConductor vistaConductor ){
+    public Automovil[] cosultarAutomovilCodigo(String codigo){
         String arrayJsonSerializado;
         //Se crea una instancia de ServicioServidorUniversidad para poder consultar la informacion de los automoviles del 
         //conductor por codigo. 
         ServicioServidorUniversidad servicioUniversidad = new ServicioServidorUniversidad();
         arrayJsonSerializado = servicioUniversidad.datosAutomovilesPorCodigo(codigo);
         Automovil [] newAutomoviles = new Gson().fromJson(arrayJsonSerializado, Automovil[].class);
-        mostrarAuto(newAutomoviles,vistaConductor);
         return(newAutomoviles);
          
-    }
-    private void mostrarConductor(Conductor conductor,VistaConsultaConductor vc){
-            vc.mostrarConductor(conductor.getNombre(),conductor.getApellido(), conductor.getCedula(),conductor.getCodigo(),conductor.getRol(),conductor.getFecha_nacimiento(),conductor.getGenero());
-    }
-    private void mostrarAuto(Automovil[] automovil,VistaConsultaConductor vc){
-        vc.mostrarAutomovil(automovil);
     }
     public void ingresarConductor(String nombre,String apellido,String rol, String cedula, String codigo,String fechaNacimiento, String genero){
        //Se crea una instancia de ServicioServidorUniversidad para poder registrar la informacion de un conductor 
@@ -97,10 +82,7 @@ public class GestorConductor {
     
     public void vincularConductorVehiculo(String placa,String id){
         //Se crea una instancia de ServicioServidorUniversidad para poder vincular la informacion un conductor con un vehiculo 
-
         ServicioServidorUniversidad servicioUniversidad = new ServicioServidorUniversidad();
-        System.out.println(placa);
-        System.out.println(id);
         servicioUniversidad.vincularAutomovilConductor(placa, id,null);
     }
     

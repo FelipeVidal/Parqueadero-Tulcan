@@ -8,14 +8,13 @@ package parqueaderotulcan.controlador;
 import com.google.gson.Gson;
 import javax.swing.JOptionPane;
 import parqueaderotulcan.modelo.ServicioServidorUniversidad;
-import parqueaderotulcan.modelo.Persona;
 import parqueaderotulcan.modelo.Vigilante;
 import parqueaderotulcan.vista.VistaLogin;
 import parqueaderotulcan.vista.VistaVigilante;
 
 /**
  *
- * @author Felipe
+ * @author Felipe Vidal y Aldair Zemanate
  */
 public class GestorVigilante {
     public void GestorVigilante(){
@@ -40,5 +39,8 @@ public class GestorVigilante {
             vistaVigilante.setVisible(true);
         }
     }
-  
+    public void RegistrarVigilante(String id, String nombre,String apellido,String fecha_nacimiento,String genero ,String empresa,String usuario,String contrasenia){
+           ServicioServidorUniversidad newServicio = new ServicioServidorUniversidad();
+           newServicio.ingresarDatosVigilante(id, nombre, apellido, fecha_nacimiento, genero, empresa, usuario, contrasenia);
+    }      
 }
